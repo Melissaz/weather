@@ -26,7 +26,8 @@ export default class WeatherChannel extends React.Component{
             },
             days:[                
                 {weekday: '', high:'' , low:'', icon:''},
-            ]
+            ],
+           error:''
         };
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -46,21 +47,19 @@ export default class WeatherChannel extends React.Component{
             humidity:data.relative_humidity,
             wind:data.wind_kph,
             wind_dir:data.wind_dir
-
         }
         this.setState({condition: condition});
     }
 
     onForecastLoad(props){
-        //const weekday = props.data.weekday;
         const days = [
-            {weekday: props.map((weekday) => 
+            {weekday: props.map((weekday,i) => 
             <div className="forecastcontainer">
                 <div className ="row onforecastload">
-                    <span className="col-3 onforecastload_con">{weekday.date.weekday_short} </span>
-                    <span className="col-3 onforecastload_con"><img className="forecasticon"src ={weekday.icon_url} alt="weathericon" /></span>
-                   <span className="col-3 onforecastload_con"> {weekday.high.celsius}</span>
-                   <span className="col-3 onforecastload_con">{weekday.low.celsius}</span>
+                    <span className="col-3 onforecastload_con" key={`${weekday.date.weekday_short}_${i}`}>{weekday.date.weekday_short} </span>
+                    <span className="col-3 onforecastload_con" key={weekday.icon_url}><img className="forecasticon"src ={weekday.icon_url} alt="weathericon" /></span>
+                   <span className="col-3 onforecastload_con" key={weekday.high.celsius}> {weekday.high.celsius}</span>
+                   <span className="col-3 onforecastload_con" key={weekday.low.celsius}>{weekday.low.celsius}</span>
                 </div> 
             </div>
                 )},
@@ -70,13 +69,17 @@ export default class WeatherChannel extends React.Component{
 
 
     handleSearch (city){
-        console.log(city);
-        fetchConditionData(city).then(data => {
-             this.onConditionLoad(data);
-        })
-        fetchForecast(city).then(data =>{
-            this.onForecastLoad(data);
-        })
+        if (!city){
+            return;
+        }
+        fetchConditionData(city).then(data => this.onConditionLoad(data))
+                                .catch(error =>{
+                                    alert(error.message)
+                                });
+        fetchForecast(city).then(data =>this.onForecastLoad(data))
+                            .catch(error =>{
+                                return;
+                            });
     }
 
     componentDidMount() {

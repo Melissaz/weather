@@ -12,10 +12,14 @@ const FORECAST_BASE_URL =
 
 export function fetchConditionData(city){
     const url = `${CONDITION_BASE_URL}${city}.json`;
+    
     return axios.get(url).then(response => response.data.current_observation);
 }
 
+
 export function fetchForecast(city){
     const url = `${FORECAST_BASE_URL}${city}.json`;
-    return axios.get(url).then(response => response.data.forecast.simpleforecast.forecastday);
+    return axios.get(url).then(response => {
+        return response.data.forecast.simpleforecast.forecastday
+    });
 }

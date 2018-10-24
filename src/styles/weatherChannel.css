@@ -1,0 +1,16 @@
+.onforecastload{
+    color:#fff;
+    text-align: center;
+}
+.forecastcontainer{
+    margin-right:40px;
+}
+
+.forecasticon{
+    width:15px;
+    height:15px;
+}
+
+.onforecastload_con{
+    display: inline-block;
+}

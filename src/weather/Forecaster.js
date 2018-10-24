@@ -11,11 +11,11 @@ export default function Forecaster(props){
 function DailyItem(props){
   const day = props.day;
   return(
-  <section className="weather-forecast">
-    <div className="weather-forecast__row">
-      <span className="weather-forecast__day">{day.weekday}</span>
-      <span className="weather-forecast__high">{day.high}</span>
-      <span className="weather-forecast__low">{day.low}</span>
+  <section >
+    <div >
+      <span >{day.weekday}</span>
+      <span >{day.high}</span>
+      <span >{day.low}</span>
     </div>
 </section>
   )

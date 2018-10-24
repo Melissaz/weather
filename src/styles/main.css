@@ -41,7 +41,7 @@ button {
   .weather-condition,
   .weather-forecast {
     float: left;
-    width: 50%;
+    width: 80%;
   }
   .weather-forecast {
     margin: 1rem 0;
@@ -101,19 +101,34 @@ nav {
 /* end tool bar */
 
 .weather-condition {
-  margin-bottom: 50px;
+  margin: 0 10px 10px 30px;
 }
 .weather-condition__location {
-  margin-top: 3rem;
+  margin-top: 10px;
   text-align: center;
   font-size: 1.2rem;
   font-weight: 700;
+  color: #fff;
 }
 
 .weather-condition__cloud{
   text-align: center; 
   font-size: 14px;
   margin:10px;
+  color: #fff;
+}
+
+.weather-condition__icon{
+  text-align: center; 
+  width:25px;
+  height:25px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.weather-condition__icon img{
+  width: 100%;
+  vertical-align: middle;
 }
 
 .weather-condition__desc {
@@ -121,7 +136,7 @@ nav {
   justify-content: space-around;
   align-items: center;
   /* margin-top: 0.3rem; */
-  margin: 2rem 5rem 0 5rem;
+  margin: 0px;
   text-align: center;
   font-size: 0.8rem;
   font-weight: 400;
@@ -131,11 +146,12 @@ nav {
   vertical-align: middle;
 }
 .weather-condition__desc .citem {
-  padding: 0 0 3px 5px;
+  padding: 0 10px 0px 10px;
+  font-size: 18px;
+  color:white;
 }
 .weather-condition__temp {
   color: #fff;
-  margin-top: 0.75rem;
   text-align: center;
   font-size: 5rem;
   font-weight: 100;

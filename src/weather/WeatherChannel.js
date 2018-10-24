@@ -1,31 +1,35 @@
 import React from 'react';
-
-
 import {FaSearch} from 'react-icons/fa';
-
 import CityCondition from './CityConditon';
 import Forecaster from './Forecaster';
+import DaysSwitch from './DaysSwitch';
 
 import{fetchConditionData, fetchForecast} from '../api/weather2';
+
+import '../styles/weatherChannel.css';
+import '../styles/bootstrap.min.css';
 
 
 export default class WeatherChannel extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            curCity:'',
+            curCity:'brisbane',
             condition:{
-                city: 'Brisbane',
-                // temp : data.temp_c,
-                temp: {C: 0, F: 0},
-                weather: 'weather'
+                city: '',
+                temp: {C:'', F: ''},
+                weather: '',
+                icon:'',
+                humidity:'',
+                wind:'',
+                wind_dir:''
             },
             days:[                
-                {weekday: 'mon', high:19, low:11},
-                {weekday: 'Wed', high:23, low:18},
-                {weekday: 'Thu', high:29, low:18},
+                {weekday: '', high:'' , low:'', icon:''},
             ]
         };
+        this.handleCityChange = this.handleCityChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleCityChange(event){
@@ -36,78 +40,67 @@ export default class WeatherChannel extends React.Component{
     onConditionLoad(data){
         const condition = {
             city: data.display_location.full,
-            // temp : data.temp_c,
             temp: {C: data.temp_c, F: data.temp_f},
-            weather: data.weather
+            weather: data.weather,
+            icon:data.icon_url,
+            humidity:data.relative_humidity,
+            wind:data.wind_kph,
+            wind_dir:data.wind_dir
+
         }
         this.setState({condition: condition});
     }
 
-    onForecastLoad(data){
+    onForecastLoad(props){
+        //const weekday = props.data.weekday;
         const days = [
-            {weekday: data[0].date.weekday, 
-                     high:data[0].high.celsius, 
-                    low:data[0].low.celsius},
-            {weekday: data[1].date.weekday, 
-                        high:data[1].high.celsius, 
-                         low:data[1].low.celsius},
-            {weekday: data[2].date.weekday, 
-            high:data[2].high.celsius, 
-                low:data[2].low.celsius}
+            {weekday: props.map((weekday) => 
+            <div className="forecastcontainer">
+                <div className ="row onforecastload">
+                    <span className="col-3 onforecastload_con">{weekday.date.weekday_short} </span>
+                    <span className="col-3 onforecastload_con"><img className="forecasticon"src ={weekday.icon_url} alt="weathericon" /></span>
+                   <span className="col-3 onforecastload_con"> {weekday.high.celsius}</span>
+                   <span className="col-3 onforecastload_con">{weekday.low.celsius}</span>
+                </div> 
+            </div>
+                )},
             ]
-        // let days = data.map((day) =>
-        //     day ={weekday: data.date.weekday,
-        //         high:data.high.celsius, 
-        //         low:data.low.celsius}
-        //     );
-
-            // for(let i = 0; i<6; i++){
-            //     var days= [{
-            //         weekday: data[i].date.weekday, 
-            //         high:data[i].high.celsius, 
-            //         low:data[i].low.celsius
-            //     }]
-            // }
         this.setState({days: days});
     }
 
-        
-      
 
-
-    
-
-    handleSearch(){
-        const city = this.state.curCity;
+    handleSearch (city){
+        console.log(city);
         fetchConditionData(city).then(data => {
              this.onConditionLoad(data);
         })
         fetchForecast(city).then(data =>{
             this.onForecastLoad(data);
-        }
-        )
+        })
     }
+
+    componentDidMount() {
+    this.handleSearch(this.state.curCity);
+    };
 
     render(){
         return(
             <React.Fragment>
                 <nav>
-                    <div style={{flex:1}}>
-                        <input className="search-input" value = {this.state.curCity} onChange={this.handleCityChange.bind(this)}/>
-                        <button className="search-btn" onClick= {this.handleSearch.bind(this)} ><FaSearch /></button>
+                    <div>
+                        <input className="search-input" value = {this.state.curCity} onChange={this.handleCityChange} />
+                        <button className="search-btn" onClick= {()=> {this.handleSearch(this.state.curCity)}} ><FaSearch /></button>
                         <button className="temp-switch">
-                        <i className="fa fa-thermometer-empty" aria-hidden="true"></i>
                         C
                         </button>
-                    </div> 
-                    
-                </nav>   
-                       
-                <main>
-                    <section className="weather-condition">
+                    </div>         
+                </nav>    
+                <main className="row">
+                    <section className="col-6">
                         <CityCondition data={this.state.condition} />
                     </section>
-                    <section>
+                    <section className="col-6">
+                        <DaysSwitch />
                         <Forecaster days={this.state.days} />
                     </section>
                 </main>

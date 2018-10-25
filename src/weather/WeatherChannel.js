@@ -2,7 +2,6 @@ import React from 'react';
 import {FaSearch} from 'react-icons/fa';
 import CityCondition from './CityConditon';
 import Forecaster from './Forecaster';
-import DaysSwitch from './DaysSwitch';
 
 import{fetchConditionData, fetchForecast} from '../api/weather2';
 
@@ -29,7 +28,8 @@ export default class WeatherChannel extends React.Component{
             ],
            error:'',
            daynumber:[5],
-          
+           foreColor5:'switch-active',
+           foreColor10:'switch-unactive'
         };
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -90,11 +90,11 @@ export default class WeatherChannel extends React.Component{
 
     
     switchForeDays5(){
-         this.setState({daynumber:5},this.componentDidMount());
+         this.setState({daynumber:5, foreColor5:'switch-active', foreColor10:'switch-unactive'},this.componentDidMount());
     };
 
     switchForeDays10(){
-        this.setState({daynumber:10},this.componentDidMount());
+        this.setState({daynumber:10, foreColor5:'switch-unactive', foreColor10:'switch-active'},this.componentDidMount());
     };
 
     componentDidMount() {
@@ -120,12 +120,10 @@ export default class WeatherChannel extends React.Component{
                     <section className="col-6">
                         
                         <div className="forecast__switch_5">
-                            <button  className={this.state.foreColor} onClick={()=> {this.switchForeDays5()}} >
+                            <button  className={this.state.foreColor5} onClick={()=> {this.switchForeDays5()}} >
                                     5 days
-                                
                             </button>
-                            <button  onClick={()=>{this.switchForeDays10()}}>
-
+                            <button className={this.state.foreColor10} onClick={()=>{this.switchForeDays10()}}>
                                 10 days
                             </button>
                         </div>

@@ -3,10 +3,10 @@ import axios from 'axios';
 
 
 const CONDITION_BASE_URL=
-'http://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/q/Australia/';
+'https://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/q/Australia/';
 
 const FORECAST_BASE_URL =
-'http://api.wunderground.com/api/f029e46fd0232d12/geolookup/forecast10day/q/Australia/';
+'https://api.wunderground.com/api/f029e46fd0232d12/geolookup/forecast10day/q/Australia/';
 
 
 

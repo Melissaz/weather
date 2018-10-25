@@ -27,10 +27,14 @@ export default class WeatherChannel extends React.Component{
             days:[                
                 {weekday: '', high:'' , low:'', icon:''},
             ],
-           error:''
+           error:'',
+           daynumber:[5],
+          
         };
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.switchForeDays5 = this.switchForeDays5.bind(this);
+        this.switchForeDays10 = this.switchForeDays10.bind(this);
     }
 
     handleCityChange(event){
@@ -52,8 +56,10 @@ export default class WeatherChannel extends React.Component{
     }
 
     onForecastLoad(props){
+        let daynumber = this.state.daynumber; 
         const days = [
-            {weekday: props.map((weekday,i) => 
+            {weekday: props.slice(0,daynumber)
+                .map((weekday,i) => 
             <div className="forecastcontainer">
                 <div className ="row onforecastload">
                     <span className="col-3 onforecastload_con" key={`${weekday.date.weekday_short}_${i}`}>{weekday.date.weekday_short} </span>
@@ -82,8 +88,17 @@ export default class WeatherChannel extends React.Component{
                             });
     }
 
+    
+    switchForeDays5(){
+         this.setState({daynumber:5},this.componentDidMount());
+    };
+
+    switchForeDays10(){
+        this.setState({daynumber:10},this.componentDidMount());
+    };
+
     componentDidMount() {
-    this.handleSearch(this.state.curCity);
+        this.handleSearch(this.state.curCity);
     };
 
     render(){
@@ -103,7 +118,17 @@ export default class WeatherChannel extends React.Component{
                         <CityCondition data={this.state.condition} />
                     </section>
                     <section className="col-6">
-                        <DaysSwitch />
+                        
+                        <div className="forecast__switch_5">
+                            <button  className={this.state.foreColor} onClick={()=> {this.switchForeDays5()}} >
+                                    5 days
+                                
+                            </button>
+                            <button  onClick={()=>{this.switchForeDays10()}}>
+
+                                10 days
+                            </button>
+                        </div>
                         <Forecaster days={this.state.days} />
                     </section>
                 </main>

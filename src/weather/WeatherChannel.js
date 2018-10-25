@@ -9,6 +9,7 @@ import '../styles/weatherChannel.css';
 import '../styles/bootstrap.min.css';
 
 
+
 export default class WeatherChannel extends React.Component{
     constructor(props){
         super(props);
@@ -108,8 +109,9 @@ export default class WeatherChannel extends React.Component{
                     <div>
                         <input className="search-input" value = {this.state.curCity} onChange={this.handleCityChange} />
                         <button className="search-btn" onClick= {()=> {this.handleSearch(this.state.curCity)}} ><FaSearch /></button>
-                        <button className="temp-switch">
-                        C
+                        <button className="temp-switch">C
+                            
+                            
                         </button>
                     </div>         
                 </nav>    

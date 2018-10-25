@@ -12,10 +12,9 @@ export default function CityCondition(props){
       
         <div className="weather-condition__location">{condition.city}</div>
         <div className="weather-condition__cloud">{condition.weather}</div>
-        {/* <div className="weather-condition__icon">
-              <img src={condition.icon}  alt=""/>
-        </div> */}
-        <div className="weather-condition__temp">{condition.temp.C} </div>
+        <div className="weather-condition__temp">
+        {condition.temp.C} °C
+        </div>
         
         
 

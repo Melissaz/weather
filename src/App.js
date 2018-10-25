@@ -19,6 +19,9 @@ var sectionStyle = {
 };
 
 class App extends Component {
+  componentDidMount(){
+    document.title = "Weather"
+  }
   render() {
     return (
       <div className = "weather-channel__container" style={sectionStyle}>

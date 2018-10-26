@@ -14,7 +14,7 @@ export default class WeatherChannel extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            curCity:'brisbane',
+            curCity:'sydney',
             condition:{
                 city: '',
                 temp: {C:'', F: ''},

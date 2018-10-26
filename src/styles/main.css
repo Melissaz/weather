@@ -32,9 +32,10 @@ button {
     box-shadow: 5px 5px 10px #999;
   }
   .weather-channel__footer {
-    /* background-color:  */
+    color:#fff;
     clear: both;
     padding: 8px 30px;
+    font-size:10px;
   }
 }
 @media only screen and (min-width: 480px) {

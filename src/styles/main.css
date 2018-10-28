@@ -17,7 +17,6 @@ button {
 
 .weather-channel__container {
   background: #323544;
-  /* background-color: #262936; */
   height: 100vh;
   position: relative;
 }
@@ -211,7 +210,8 @@ nav {
 
 .weather-channel__footer {
   background-color: rgba(0, 0, 0, 0.1);
-  /* margin-top: 30px; */
+  color:#ffffff;
+
 }
 .weather-channel__footer p {
   margin: 3px auto;

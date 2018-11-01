@@ -56,21 +56,16 @@ export default class WeatherChannel extends React.Component{
         this.setState({condition: condition});
     }
 
-    onForecastLoad(props){
+    onForecastLoad(data){
         let daynumber = this.state.daynumber; 
-        const days = [
-            {weekday: props.slice(0,daynumber)
-                .map((weekday,i) => 
-            <div className="forecastcontainer">
-                <div className ="row onforecastload">
-                    <span className="col-3 onforecastload_con" key={`${weekday.date.weekday_short}_${i}`}>{weekday.date.weekday_short} </span>
-                    <span className="col-3 onforecastload_con" key={weekday.icon_url}><img className="forecasticon"src ={weekday.icon_url} alt="weathericon" /></span>
-                   <span className="col-3 onforecastload_con" key={weekday.high.celsius}> {weekday.high.celsius}</span>
-                   <span className="col-3 onforecastload_con" key={weekday.low.celsius}>{weekday.low.celsius}</span>
-                </div> 
-            </div>
-                )},
-            ]
+        const days = data.slice(0,daynumber).map(day=>{
+            return{
+              weekday:day.date.weekday_short,
+              high:day.high.celsius,
+              low:day.low.celsius,
+              icon:day.icon_url}
+          });
+
         this.setState({days: days});
     }
 
@@ -83,7 +78,7 @@ export default class WeatherChannel extends React.Component{
                                 .catch(error =>{
                                     alert(error.message)
                                 });
-        fetchForecast(city).then(data =>this.onForecastLoad(data))
+        fetchForecast(city).then(data => this.onForecastLoad(data))
                             .catch(error =>{
                                 return;
                             });
@@ -109,8 +104,6 @@ export default class WeatherChannel extends React.Component{
                     <div>
                         <input className="search-input" value = {this.state.curCity} onChange={this.handleCityChange} />
                         <button className="search-btn" onClick= {()=> {this.handleSearch(this.state.curCity)}} ><FaSearch /></button>
-                        {/* <button className="temp-switch">C </button> */}
-                        
                     </div>         
                 </nav>    
                 <main className="row">
@@ -128,6 +121,7 @@ export default class WeatherChannel extends React.Component{
                             </button>
                         </div>
                         <Forecaster days={this.state.days} />
+                        
                     </section>
                 </main>
             </React.Fragment>

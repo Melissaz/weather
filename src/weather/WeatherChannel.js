@@ -1,12 +1,13 @@
 import React from 'react';
-import {FaSearch} from 'react-icons/fa';
 import CityCondition from './CityConditon';
 import Forecaster from './Forecaster';
-
+import Toolbar from './Toolbar';
 import{fetchConditionData, fetchForecast} from '../api/weather2';
+
 
 import '../styles/weatherChannel.css';
 import '../styles/bootstrap.min.css';
+import ForecastDaySwitch from './ForecastDaySwitch';
 
 
 
@@ -18,16 +19,12 @@ export default class WeatherChannel extends React.Component{
             condition:{
                 city: '',
                 temp: {C:'', F: ''},
-                weather: '',
-                icon:'',
-                humidity:'',
-                wind:'',
-                wind_dir:''
+                weather: '', icon:'', humidity:'', wind:'', wind_dir:''
             },
             days:[                
                 {weekday: '', high:'' , low:'', icon:''},
             ],
-           error:'',
+           unit:'C',
            daynumber:[5],
            foreColor5:'switch-active',
            foreColor10:'switch-unactive'
@@ -36,6 +33,7 @@ export default class WeatherChannel extends React.Component{
         this.handleSearch = this.handleSearch.bind(this);
         this.switchForeDays5 = this.switchForeDays5.bind(this);
         this.switchForeDays10 = this.switchForeDays10.bind(this);
+        this.handleUnitChange = this.handleUnitChange.bind(this);
     }
 
     handleCityChange(event){
@@ -61,8 +59,8 @@ export default class WeatherChannel extends React.Component{
         const days = data.slice(0,daynumber).map(day=>{
             return{
               weekday:day.date.weekday_short,
-              high:day.high.celsius,
-              low:day.low.celsius,
+              high:{C: day.high.celsius, F:day.high.fahrenheit},
+              low:{C: day.low.celsius, F: day.low.fahrenheit},
               icon:day.icon_url}
           });
 
@@ -84,13 +82,23 @@ export default class WeatherChannel extends React.Component{
                             });
     }
 
+    handleUnitChange(unit){
+        if(unit === 'C'){
+            this.setState({unit:'F'});
+        }
+        if(unit === 'F'){
+            this.setState({unit:'C'});
+        }
+    }
     
     switchForeDays5(){
-         this.setState({daynumber:5, foreColor5:'switch-active', foreColor10:'switch-unactive'},this.componentDidMount());
+         this.setState({daynumber:5, foreColor5:'switch-active', foreColor10:'switch-unactive'},
+         this.componentDidMount());
     };
 
     switchForeDays10(){
-        this.setState({daynumber:10, foreColor5:'switch-unactive', foreColor10:'switch-active'},this.componentDidMount());
+        this.setState({daynumber:10, foreColor5:'switch-unactive', foreColor10:'switch-active'},
+        this.componentDidMount());
     };
 
     componentDidMount() {
@@ -101,27 +109,25 @@ export default class WeatherChannel extends React.Component{
         return(
             <React.Fragment>
                 <nav>
-                    <div>
-                        <input className="search-input" value = {this.state.curCity} onChange={this.handleCityChange} />
-                        <button className="search-btn" onClick= {()=> {this.handleSearch(this.state.curCity)}} ><FaSearch /></button>
-                    </div>         
+                    <Toolbar handleCityChange={this.handleCityChange} 
+                            handleSearch={this.handleSearch} 
+                            curCity={this.state.curCity} 
+                            unit={this.state.unit} 
+                            handleUnitChange={this.handleUnitChange}/>
                 </nav>    
                 <main className="row">
                     <section className="col-6">
-                        <CityCondition data={this.state.condition} />
+                        <CityCondition data={this.state.condition} 
+                                        unit={this.state.unit} />
                     </section>
                     <section className="col-6">
-                        
-                        <div className="forecast__switch_5">
-                            <button  className={this.state.foreColor5} onClick={()=> {this.switchForeDays5()}} >
-                                    5 days
-                            </button>
-                            <button className={this.state.foreColor10} onClick={()=>{this.switchForeDays10()}}>
-                                10 days
-                            </button>
-                        </div>
-                        <Forecaster days={this.state.days} />
-                        
+                        <ForecastDaySwitch foreColor5={this.state.foreColor5}
+                                            foreColor10={this.state.foreColor10}
+                                            switchForeDays5={this.switchForeDays5}
+                                            switchForeDays10={this.switchForeDays10} />
+
+                        <Forecaster days={this.state.days} 
+                                     unit={this.state.unit}/>
                     </section>
                 </main>
             </React.Fragment>

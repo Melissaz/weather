@@ -42,7 +42,7 @@ button {
   .weather-condition,
   .weather-forecast {
     float: left;
-    width: 80%;
+    width: 70%;
   }
   .weather-forecast {
     margin: 1rem 0;
@@ -88,6 +88,21 @@ nav {
   cursor: pointer;
   color: white;
   margin-left: -39px;
+}
+.search-unit{
+  color: black;
+  cursor: pointer;
+  border-radius: 30px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  margin-left: 35px;
+  padding: 5px 28px 5px 28px;
+}
+
+.search-unit span{
+  font-size:0.9rem;
+  font-weight: 600;
+  width: 30px;
 }
 
 /* end tool bar */
@@ -148,6 +163,7 @@ nav {
   font-size: 5rem;
   font-weight: 100;
 }
+
 
 
 
